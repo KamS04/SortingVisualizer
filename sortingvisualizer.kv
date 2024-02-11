@@ -1,0 +1,131 @@
+#:import utils kivy.utils
+
+<RadioButton>:
+    _check_box: check_box
+
+    CheckBox:
+        id: check_box
+        pos_hint: {"x:": 0.025, "center_y": 0.5}
+        size_hint: 0.15, 1
+    
+    Label:
+        text: root.text
+        size_hint: 0.775, 1
+        halign: 'left'
+        valign: 'center'
+        text_size: self.size
+        pos_hint: {'x': 0.2, 'center_y': 0.5}
+        
+
+<Visualizer>:
+    canvas.before:
+        Color:
+            rgb: utils.get_color_from_hex("#333333")
+        Rectangle:
+            id: display
+            pos: self.pos
+            size: self.size[0], self.size[0]
+
+
+FloatLayout:
+
+    FloatLayout:
+        size_hint: 0.7, 0.7
+        pos_hint: {"x": 0, "y": 0}
+        
+        Visualizer:
+            size_hint: 0.95, 0.95
+            pos_hint: {"x": 0.025, "y": 0.025}
+            id: visualizer
+
+
+    FloatLayout:
+        id: controls
+        size_hint: 0.29, 0.98
+        pos_hint: {"right": 1 - 0.005, "top": 1 - 0.01}
+
+        canvas.before:
+            Color:
+                rgb: 0.01, 0, 0.3
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        GridLayout:
+            cols: 1
+            size_hint: 1, 0.5
+            pos_hint: {"right": 1, "top": 1}
+
+            Button:
+                text: "Reset Arrays"
+                on_release:
+                    app.reset_arrays()
+
+            FloatLayout:
+                Label:
+                    text: "Width"
+                    halign: 'left'
+                    size_hint: 0.475, 0.5
+                    text_size: self.size
+                    pos_hint: {"x": 0.025, "top": 1}
+                Label:
+                    id: width_display
+                    halign: 'right'
+                    text: '1'
+                    text_size: self.size
+                    size_hint: 0.475, 0.5
+                    pos_hint: {"right": 0.975, "top": 1}
+                Slider:
+                    id: width_control
+                    size_hint: 0.95, 0.5
+                    pos_hint: {"x": 0.025, "y": 0}
+            Button:
+                text: 'Sort'
+                on_release:
+                    app.start_sort()
+
+            Button:
+                text: "Stop Sort"
+                on_release:
+                    app.visualizer.kill_sort()
+
+        ScrollView:
+            size_hint: 1, 0.5
+            pos_hint: {"right": 1, "y": 0}
+            
+            GridLayout:
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                row_default_height: '100dp'
+                row_force_default: True
+
+                RadioButton:
+                    text: "Bubble Sort"
+                    group: app.sorting_radio_group
+                    selected_input: app.selected_algorithm
+                    selected_val: "BubbleSort"
+
+                RadioButton:
+                    text: "Dual Pivot Quick Sort"
+                    group: app.sorting_radio_group
+                    selected_input: app.selected_algorithm
+                    selected_val: "DualPivotQuickSort"
+
+                RadioButton:
+                    text: "Quick Sort"
+                    group: app.sorting_radio_group
+                    selected_input: app.selected_algorithm
+                    selected_val: "QuickSort"
+
+                RadioButton:
+                    text: "Selection Sort"
+                    group: app.sorting_radio_group
+                    selected_input: app.selected_algorithm
+                    selected_val: "SelectionSort"
+
+                RadioButton:
+                    text: "Merge Sort"
+                    group: app.sorting_radio_group
+                    selected_input: app.selected_algorithm
+                    selected_val: "MergeSort"
